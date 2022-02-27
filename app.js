@@ -22,7 +22,7 @@ const showPlayerDetail = (players) => {
         <p>${player.strPlayer}</p>
         <div class="allButton">
           <button class="btn btn-danger">Delete</button>
-          <button onclick="details(${player.idPlayer})" class="btn btn-success">Details</button>
+          <button onclick="details('${player.idPlayer}')" class="btn btn-success">Details</button>
         </div>
       </div>
     `;
@@ -36,5 +36,20 @@ const details = (id) => {
   const url = `https://www.thesportsdb.com/api/v1/json/2/lookupplayer.php?id=${id}`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => console.log(data.players));
+    .then((data) => setDetalis(data.players[0]));
+};
+
+const setDetalis = (info) => {
+  console.log("info", info);
+  document.getElementById("details-container").innerHTML = `
+  <div>
+    <img class="w-50" src="${info.strThumb}" />
+    <h1>Name: ${info.strPlayer}</h1>
+    <h2>Country: ${info.strNationality}</h2>
+    <h3>Club: ${info.strTeam}</h3>
+    <h4>Birth Info: ${info.dateBorn}, at ${info.strBirthLocation}</h4>
+    <p>Description: ${info.strDescriptionFR}</p>
+
+  </div>
+  `;
 };
